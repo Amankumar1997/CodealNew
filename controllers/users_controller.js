@@ -1,3 +1,4 @@
+const User=require('../models/user');
 module.exports.profile=function(req,res)
 {
     // i also need to give access to routes
@@ -18,7 +19,28 @@ module.exports.signUp=function(req,res){
 
 //  get the sign up data
 module.exports.create=function(req,res){
-    //  todo lator
+// read body params 
+// check paswword and confirm passwrd is same or not
+if(req.body.password!=req.body.confirm_password)
+{
+    return res.redirect('back');
+}
+// trying find userId
+User.findOne({email:req.body.email},function(err,user){
+    if(err){console.log("errror in finding user sign up ");return}
+
+    //  if user not found than we create a user
+    if(!user){
+    User.create(req.body,function(err,user){
+        if(err){console.log("errror in creating while  user sign up ");return}
+    
+        return res.redirect('/users/sign-in');
+    })
+    }else{
+        return res.redirect('back');
+    }
+});
+
 }
 
 // get the sign in data
