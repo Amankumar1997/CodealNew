@@ -16,7 +16,13 @@ module.exports.signUp=function(req,res){
     })
 }
 
-//  
+//  get the sign up data
 module.exports.create=function(req,res){
     //  todo lator
 }
+
+// get the sign in data
+module.exports.createSession=function(req,res){
+    //  todo lator
+}
+
