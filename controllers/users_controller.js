@@ -46,5 +46,6 @@ User.findOne({email:req.body.email},function(err,user){
 // get the sign in data
 module.exports.createSession=function(req,res){
     //  todo lator
+    return res.redirect('/');
 }
 
