@@ -1,3 +1,4 @@
+const { redirect } = require('express/lib/response');
 const User=require('../models/user');
 module.exports.profile=function(req,res)
 {
@@ -5,17 +6,33 @@ module.exports.profile=function(req,res)
     return res.render('user_profile',{});
 }
 
+
+//  render the sign up page
+module.exports.signUp=function(req,res){
+// if req is authenticated than it will redirect on profile page
+if(req.isAuthenticated())
+{
+    return res.redirect('/users/profile');
+}
+
+
+    return res.render('user_sign_up',{
+
+    })
+}
+
+//  renderthe sign in page
 module.exports.signIn=function(req,res){
+    // if req is authenticated than it will redirect on profile page
+if(req.isAuthenticated())
+{
+    return res.redirect('/users/profile');
+}
     return res.render('user_sign_in',{
 
     })
 }
 
-module.exports.signUp=function(req,res){
-    return res.render('user_sign_up',{
-
-    })
-}
 
 //  get the sign up data
 module.exports.create=function(req,res){
@@ -45,7 +62,12 @@ User.findOne({email:req.body.email},function(err,user){
 
 // get the sign in data
 module.exports.createSession=function(req,res){
-    //  todo lator
+    
     return res.redirect('/');
 }
 
+
+module.exports.destroySession=function(req,res){
+    req.logout();
+    return res.redirect('/');
+}

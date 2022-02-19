@@ -45,4 +45,32 @@ return done(null,user);
 });
 });
 
+
+
+// check if the user is authenticated
+passport.checkAuthentication=function(req,res,next){
+// detect user signd in  if user is signed in passed to the next function which is my controller action
+    if(req.isAuthenticated())
+    {
+        return next();
+    }
+
+    // if the user is not signed in then redirecton user sign in page
+return res.redirect('/users/sign-in');
+}
+
+
+// set the user for view if it is signed in
+passport.setAuthenticatedUser=function(req,res,next){
+    // check user is authenticated or not
+    if(req.isAuthenticated()){
+    //  req.user contains the current signed in user from the session cookie and we are just sending this to the locals for the views
+     res.locals.user=req.user;
+    }
+next();
+}
+
+
+
+
 module.export=passport;

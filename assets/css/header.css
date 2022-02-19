@@ -1,0 +1,28 @@
+/* Fira Sans */
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans");
+body {
+  /** NAVIGATION BAR */ }
+  body #container {
+    width: 100%;
+    display: inline-block; }
+  body #header-title {
+    color: black; }
+  body nav {
+    overflow: hidden;
+    background-color: #333;
+    width: 100%; }
+    body nav ul {
+      text-align: center;
+      list-style-type: none;
+      list-style-type: none;
+      margin: 0; }
+      body nav ul li {
+        display: inline;
+        font-family: "Fira Sans", sans-serif;
+        font-size: 17px; }
+        body nav ul li a {
+          color: red;
+          text-decoration: none;
+          align-items: flex-end; }
+          body nav ul li a:hover {
+            background-color: lightblue; }

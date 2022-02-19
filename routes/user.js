@@ -1,4 +1,5 @@
 const express = require('express');
+const { authenticate } = require('passport');
 const router = express.Router();
 const passport=require('passport');
 // access home controller 
@@ -6,7 +7,9 @@ const usersController=require('../controllers/users_controller');
 
 
 // map  a route to the user controller
-router.get('/profile',usersController.profile);
+//  passport.checkutentication check if user id logged in only than goes to profile page
+router.get('/profile',passport.checkAuthentication,usersController.profile);
+
 router.get('/sign-up',usersController.signUp);
 router.get('/sign-in',usersController.signIn);
 
@@ -20,6 +23,7 @@ router.post('/create-session',passport.authenticate('local',// we use local stra
 {failureRedirect:'/users/sign-in'})// falire redirect means if user fails to sign in then user back to sign in page
 ,usersController.createSession);
 
+router.get('/sign-out',usersController.destroySession);
 
 module.exports=router;
 

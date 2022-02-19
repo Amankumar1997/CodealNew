@@ -1,1 +1,30 @@
-<header>header</header>
+<header>
+ 
+
+
+<div id="container">
+
+    <div id="navigation-bar">
+    <nav>
+        <h1 id="header-title">Codiel</h1>
+    <ul>
+        <% if (locals.user ){ %>
+            <li> <%=user.name%></li>
+            <li><a href="/users/sign-out">Sign Out</a></li>
+    
+            <%} else { %>
+            
+                <li>
+                    <a href="/users/sign-in">Sign In</a>
+                </li>
+    
+               <li>
+                   <a href="/users/sign-up">Sign Up</a>
+               </li>
+            <% } %>
+        </ul>
+    </nav>
+    </div>
+    </div>
+</header>
+
