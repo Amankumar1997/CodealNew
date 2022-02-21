@@ -6,7 +6,7 @@ const postController=require('../controllers/post_controller');
 
 
 // map  a route to the post controller
-router.get('/post',postController.post);
+router.post('/create',postController.create);
 
 
 

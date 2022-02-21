@@ -36,6 +36,9 @@ const port =3000;
 
 
 
+
+
+
 // access static files
 app.use(expressLayouts);
 // set up static fles 
@@ -44,9 +47,15 @@ app.use(express.static('./assets'));
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true);
 
+
+
+
 //  set view engine
 app.set('view engine','ejs');
 app.set('views','./views');
+
+
+
 
 // mongo store is used the sesion cookie in the db
 //  we need to add middleware that takesthe session cookies and encrypts them

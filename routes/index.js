@@ -10,7 +10,7 @@ router.get('/',homeControler.home);
 
 router.use('/users',require('./user'));
 
-router.use('/users',require('./post'));
+router.use('/posts',require('./posts'));
 
 module.exports=router;
 
