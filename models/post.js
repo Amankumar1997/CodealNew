@@ -10,8 +10,14 @@ content:{
 user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
-}
 },
+// includes the array of ids of all commetns in this posts Schema itself
+comments:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'comment'
+}]
+},
+
 {
     timestamps:true
 
