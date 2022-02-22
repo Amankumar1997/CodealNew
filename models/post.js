@@ -14,7 +14,7 @@ user:{
 // includes the array of ids of all commetns in this posts Schema itself
 comments:[{
     type:mongoose.Schema.Types.ObjectId,
-    ref:'comment'
+    ref:'Comment'
 }]
 },
 

@@ -63,7 +63,7 @@ User.findOne({email:req.body.email},function(err,user){
 // get the sign in data
 module.exports.createSession=function(req,res){
     
-    return res.redirect('/');
+    return res.redirect('back');
 }
 
 
