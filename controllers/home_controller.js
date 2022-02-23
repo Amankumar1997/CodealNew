@@ -1,5 +1,5 @@
 const Post=require('../models/post');
-
+const User =require('../models/user')
 
 module.exports.home=function(req,res)
 {
@@ -23,11 +23,15 @@ module.exports.home=function(req,res)
             path:'user'
         }
     })
-    .exec(
-   function(err,posts){
-    return res.render('home',{
-        posts:posts
-    });
+    .exec(function(err,posts){
+        User.find({},function(err,users){
+            return res.render('home',{
+                posts:posts,
+                all_users:users 
+
+            });
+        });
+   
    })
 
    

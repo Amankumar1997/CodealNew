@@ -1,10 +1,32 @@
 const { redirect } = require('express/lib/response');
 const User=require('../models/user');
+
+
 module.exports.profile=function(req,res)
 {
     // i also need to give access to routes
-    return res.render('user_profile',{});
+
+    User.findById(req.params.id,function(err,user){
+        return res.render('user_profile',{
+            profile_user:user
+        });
+    });
+    // 
 }
+
+module.exports.update=function(req,res){
+    // if user id is equal to user.users.param id it only allow update
+    if(req.user.id==req.params.id)
+    {
+        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+            return res.redirect('back');
+        })
+    }else{
+        // if user is not authorized thn ill show error
+        return res.status((401).send('Unautherized'))
+    }
+}
+
 
 
 //  render the sign up page
@@ -26,7 +48,7 @@ module.exports.signIn=function(req,res){
     // if req is authenticated than it will redirect on profile page
 if(req.isAuthenticated())
 {
-    return res.redirect('/users/profile');
+    return res.redirect('/users/profile/'+req.user.id);
 }
     return res.render('user_sign_in',{
 
@@ -63,7 +85,7 @@ User.findOne({email:req.body.email},function(err,user){
 // get the sign in data
 module.exports.createSession=function(req,res){
     
-    return res.redirect('back');
+    return res.redirect('/');
 }
 
 

@@ -8,7 +8,8 @@ const usersController=require('../controllers/users_controller');
 
 // map  a route to the user controller
 //  passport.checkutentication check if user id logged in only than goes to profile page
-router.get('/profile',passport.checkAuthentication,usersController.profile);
+router.get('/profile/:id',passport.checkAuthentication,usersController.profile);
+router.post('/update/:id',passport.checkAuthentication,usersController.update);
 
 router.get('/sign-up',usersController.signUp);
 router.get('/sign-in',usersController.signIn);

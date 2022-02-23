@@ -26,3 +26,30 @@ const Comment= require('../models/comment');
     })
 
 }
+
+module.exports.destroy=function(req,res){
+
+    // now i finding the comment if exiting or not in the the database before deliting
+    Comment.findById(req.params.id,
+        function(err,comment){
+        //   agr comment is equal jo id request ki thenwe delete the comment
+            if(comment.user==req.user.id){
+
+                // delete krne se phle hu usko varibalbe me stor kr lenge
+                let postId=comment.post;
+                // deleting a comment
+                comment.remove();
+                // findbyidupdate finds the matching docu,ent and update acoording to it 
+                Post.findByIdAndUpdate(postId,{$pull:{comments:req.params.id}},function(err,post){
+                                               //pull means dleting coments along which req.id comes
+                              
+                       return res.redirect('back');                        
+                })
+            }
+            // agr comment isnot equal jo id request  jo dlete krna hai
+            else{
+                return res.redirect('back');
+            }
+        });
+
+}
