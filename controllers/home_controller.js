@@ -1,7 +1,7 @@
 const Post=require('../models/post');
 const User =require('../models/user')
 
-module.exports.home=function(req,res)
+module.exports.home= async function(req,res)
 {
 //  cookies come as res and send as respons
     // res.cookie('user_id',25);
@@ -17,22 +17,30 @@ module.exports.home=function(req,res)
     // })
 
     //populating the user of each post
-    Post.find({}).populate('user').populate({
-        path:'comments',
-        populate:{
-            path:'user'
-        }
-    })
-    .exec(function(err,posts){
-        User.find({},function(err,users){
+
+
+
+    try{
+        let posts= await Post.find({})
+        .populate('user')
+        .populate({
+            path:'comments',
+            populate:{
+                path:'user'
+            }
+        });
+        
+        let users=await Post.find({});
+    
             return res.render('home',{
                 posts:posts,
                 all_users:users 
-
-            });
-        });
+            })
+    }
+    catch(err){console.log("error in home controller" ,err);return;}
+  
    
-   })
+  
 
    
 }
