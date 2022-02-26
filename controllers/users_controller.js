@@ -5,13 +5,15 @@ const User=require('../models/user');
 module.exports.profile=function(req,res)
 {
     // i also need to give access to routes
-
-    User.findById(req.params.id,function(err,user){
+   
+   let user= User.findById(req.params.id)
         return res.render('user_profile',{
             profile_user:user
-        });
-    });
-    // 
+        })
+            
+     
+  
+    
 }
 
 module.exports.update=function(req,res){

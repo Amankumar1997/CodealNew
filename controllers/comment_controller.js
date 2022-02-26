@@ -27,11 +27,13 @@ const Comment= require('../models/comment');
 
 }
 
-module.exports.destroy=function(req,res){
+module.exports.destroy=async function(req,res){
 
+    try{
     // now i finding the comment if exiting or not in the the database before deliting
-    Comment.findById(req.params.id,
-        function(err,comment){
+    let comment = await Comment.findById(req.params.id)
+      
+          
         //   agr comment is equal jo id request ki thenwe delete the comment
             if(comment.user==req.user.id){
 
@@ -40,16 +42,17 @@ module.exports.destroy=function(req,res){
                 // deleting a comment
                 comment.remove();
                 // findbyidupdate finds the matching docu,ent and update acoording to it 
-                Post.findByIdAndUpdate(postId,{$pull:{comments:req.params.id}},function(err,post){
+               let post =await  Post.findByIdAndUpdate(postId,{$pull:{comments:req.params.id}});
                                                //pull means dleting coments along which req.id comes
                               
-                       return res.redirect('back');                        
-                })
+                 return res.redirect('back');                        
+               
             }
             // agr comment isnot equal jo id request  jo dlete krna hai
             else{
                 return res.redirect('back');
             }
-        });
-
+     
+     
+    }catch(err){console.log("error in destrying comment",err);return }
 }

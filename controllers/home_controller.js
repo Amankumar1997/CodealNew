@@ -29,8 +29,8 @@ module.exports.home= async function(req,res)
                 path:'user'
             }
         });
-        
-        let users=await Post.find({});
+         
+        let users=await User.find({});
     
             return res.render('home',{
                 posts:posts,

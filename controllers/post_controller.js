@@ -1,27 +1,31 @@
 // we need to import the post schema that we have we created  inside the models folder
 const Post=require('../models/post');
 const  Comment=require('../models/comment');
-module.exports.create=function(req,res)
+module.exports.create=async function(req,res)
 {
     // i also need to give access to routes
     // create new post
-    Post.create({
-        content:req.body.content,
-        user:req.user._id
-    },
-    function(err,post)
-    {
-        if(err){console.log('errror in creating a post');return;}
-        return res.redirect('back');
-    });
+    try{
+        await Post.create({
+            content:req.body.content,
+            user:req.user._id
+        })
+    }
+    catch(err){console.log("error in post creation",err);return;}
+   
+    return res.redirect('back');
    
 }
 
 // action for destroy a post
-module.exports.destroy=function(req,res)
+module.exports.destroy=async function(req,res)
 {
+
+    try{
+
+   
     // before dleting a post i need check it is present in the data base or not 
-    Post.findById(req.params.id,function(err,post){
+    let post= await Post.findById(req.params.id,function(err,post){
 
         // if getting the post
         // .id means converting the object id into string
@@ -39,5 +43,8 @@ module.exports.destroy=function(req,res)
         }else{
             return res.redirect('back');
         }
+  
     });
+}catch(err){console.log('there is an error in destoyin post');
+return;}
 }
