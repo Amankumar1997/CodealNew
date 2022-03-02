@@ -14,6 +14,25 @@ const mongoStore=require('connect-mongo');
 
 //  import sass midlleeware
 const sassMiddleware=require('node-sass-middleware');
+// import flash
+const flash = require('connect-flash');
+
+const customware=require('./config/middleware');// we also need to use this after use flash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.use(sassMiddleware({
 
@@ -57,6 +76,11 @@ app.set('views','./views');
 
 
 
+
+
+
+
+
 // mongo store is used the sesion cookie in the db
 //  we need to add middleware that takesthe session cookies and encrypts them
 app.use(session({
@@ -83,8 +107,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 // check whter session cookie present or not 
 app.use(passport.setAuthenticatedUser);
+
+app.use(flash());
+// use flash middle ware
+app.use(customware.setFlash);
 // use express routes
 app.use('/',require('./routes/index'));
+
+
+
+
 
 
 
