@@ -2,21 +2,28 @@ const User=require('../models/user');
 //  import passport
 const passport=require('passport');
 const LocalStrategy=require('passport-local').Strategy;
+
+
+
 // authention using passport
 passport.use(new LocalStrategy({
 
-    usernameField:'email'
-    },function(email,password,done)
+    usernameField:'email',
+    // setup request .flash
+    passReqToCallback:true
+    },
+    function(req,email,password,done)
     {
 //  find a user and eSTABLISH THE idenetiy
 User.findOne({email:email},function(err,user){
-    if (err) {console.log("error in finding user passport"); 
+    if (err) {
+        req.flash('error',err); 
     return done(err); }
 
     // if password there is no usr and password is not match with user password
   if(!user || user.password!=password)
   {
-      console.log('Invalid User And password');
+      req.flash('error','Invalid User And password');
     //    if user is not found then return false means we not return any user and null for if there is errror
      return done(null,false);
   }
@@ -27,6 +34,7 @@ User.findOne({email:email},function(err,user){
 
 
 ));
+
 
 // serilizing the user to decide which key is to be kept in the cookies
 passport.serializeUser(function(user,done){
@@ -44,6 +52,10 @@ return done(err)
 return done(null,user);
 });
 });
+
+
+
+
 
 
 

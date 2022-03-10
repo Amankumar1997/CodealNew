@@ -6,45 +6,56 @@ module.exports.create=async function(req,res)
     // i also need to give access to routes
     // create new post
     try{
-        await Post.create({
+        let post= await Post.create({
             content:req.body.content,
             user:req.user._id
-        })
+        });
+
+        if(req.xhr)
+        {
+            // we return json with a status
+            return res.status(200).json({
+               // json contain a data which ill have a post
+                data:{
+                    post:post
+                },
+                message:"post created"
+            }) 
+        }
+
+
+        req.flash('success','Post Published');
+        return res.redirect('back');
     }
-    catch(err){console.log("error in post creation",err);return;}
+    catch(err){  req.flash('error',err);return;}
    
     return res.redirect('back');
    
 }
 
 // action for destroy a post
-module.exports.destroy=async function(req,res)
-{
+module.exports.destroy = async function(req, res){
 
     try{
+        let post = await Post.findById(req.params.id);
 
-   
-    // before dleting a post i need check it is present in the data base or not 
-    let post= await Post.findById(req.params.id,function(err,post){
+        if (post.user == req.user.id){
+            post.remove();
 
-        // if getting the post
-        // .id means converting the object id into string
-        if(post.user==req.user.id){
-        //   post.user and req.user .id is same then we remove post
-        post.remove();
-
-        // for dleting a coment i also need to import it
-        // comment.deleteamny deletes all commetn which based on some query part
-        Comment.deleteMany({post:req.params.id},function(err){
-        return res.redirect('back');
-        });
-        
-
+            await Comment.deleteMany({post: req.params.id});
+           
+           
+            req.flash('success','Post associated comment Deleted');
+            return res.redirect('back');
         }else{
+            req.flash('error','you cannot delete this post');
             return res.redirect('back');
         }
-  
-    });
-}catch(err){console.log('there is an error in destoyin post');
-return;}
+
+    }catch(err){
+        req.flash('error',err);
+        console.log('Error', err);
+        return;
+    }
+    
 }
